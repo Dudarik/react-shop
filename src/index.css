@@ -37,6 +37,8 @@ nav{
 .price{
   font-size: 1rem;
   font-weight: bold;
+  vertical-align: middle;
+  text-align:right;
 }
 
 .card{
@@ -52,6 +54,15 @@ nav{
 
 .card-description{
   flex-grow: 1;
+}
+
+.card-action{
+  display: flex;
+  justify-content: center;
+}
+
+.btn{
+  width: 100%;
 }
 
 .cart{
