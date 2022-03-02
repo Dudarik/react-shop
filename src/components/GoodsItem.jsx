@@ -21,9 +21,12 @@ export default function GoodsItem(props){
             <span className="card-title">{name}</span>
             <p className="card-description">{description}</p>
           </div>
-          <div className="card-action">            
-           <button className="btn" onClick={() => addToBasket({id, name, price})}>Купить</button>
-           <span className="right price">{price} Буказойдов </span>
+          <div className="card-action">
+          
+           <div className="price">{price} Буказойдов</div>
+          </div>
+          <div className="card-action">
+            <button className="btn" onClick={() => addToBasket({id, name, price})}>Купить</button>
           </div>
         </div>
     //   </div>
