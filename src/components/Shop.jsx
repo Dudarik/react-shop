@@ -6,13 +6,21 @@ import GoodsList from "./GoodsList"
 import BasketList from "./BasketList"
 import Alert from "./Alert"
 
+import Pagination from "material-ui-flat-pagination";
+
 export default function Shop() {
   const [goods, setGoods] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [order, setOrder] = useState([])
   const [isBasketShow, setIsBasketShow] = useState(false)
   const [alertName, setAlertName] = useState('')
+  const [limitPage, setLimitPage] = useState(10)
+  const [offsetPage, setOffsetPage] = useState(0)
+  const [totalItems, setTotalItems] = useState(0)
 
+  const handlePageClick = (offset) => {
+    setOffsetPage(offset)
+  }
   useEffect(function getGoods(){
     fetch(API_URL, {
       headers: {
@@ -20,9 +28,10 @@ export default function Shop() {
       }
     })
     .then(responce => responce.json())
-    .then(data => {
-      console.log(data.shop)
+    .then(data => {      
       data.shop && setGoods(data.shop)
+      data.shop && setTotalItems(data.shop.length)
+      
       setIsLoading(false)
     })
   }, [])
@@ -94,7 +103,26 @@ export default function Shop() {
   return(
     <main className="container content">
       <Cart quantity={order.length} handleBasketShow={handleBasketShow} />
-      {isLoading ? <Preloader/> : <GoodsList addToBasket={addToBasket} goods={goods}/>}
+      {isLoading ? 
+        <Preloader/> 
+        :
+        <>
+        <Pagination
+          limit={limitPage}
+          offset={offsetPage}
+          total={totalItems}
+          onClick={(e, offset) => handlePageClick(offset)}
+        />
+          <GoodsList offsetPage={offsetPage} limitPage={limitPage} addToBasket={addToBasket} goods={goods}/>
+        <Pagination
+          limit={limitPage}
+          offset={offsetPage}
+          total={totalItems}
+          onClick={(e, offset) => handlePageClick(offset)}
+        />
+
+        </> 
+      }
       {isBasketShow && <BasketList order={order} decQuantity={decQuantity} incQuantity={incQuantity} handleBasketShow={handleBasketShow} removeFromBasket={removeFromBasket}/>}
       {alertName ? <Alert name={alertName} closeAlert={closeAlert}/> : null}
     </main>
