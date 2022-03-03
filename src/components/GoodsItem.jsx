@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { ShopContext } from "../Context";
+
 export default function GoodsItem(props){
   const { 
     mainId: id,
@@ -5,7 +8,9 @@ export default function GoodsItem(props){
     displayDescription: description,
     displayAssets: [{ full_background }],
     price: { regularPrice: price },
-    addToBasket} = props;
+  } = props;
+
+  const {addToBasket} = useContext(ShopContext)
 
   // console.log(id, name, description, img, price)
   return(
